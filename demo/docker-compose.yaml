@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+  server:
+    image: shafiq98/spring_url_shortener
+    build:
+      context: .
+    container_name: server
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/url_shortener
+      - SPRING_DATASOURCE_USERNAME=compose-postgres
+      - SPRING_DATASOURCE_PASSWORD=compose-postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+      - frontend
+  app:
+    image: shafiq98/react_url_shortener
+    build:
+      context: .
+    container_name: app
+    ports:
+      - "3000:80"
+    depends_on:
+      - server
+    networks:
+      - frontend
+  db:
+    image: 'postgres:13.1-alpine'
+    container_name: db
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+      - POSTGRES_DB=url_shortener
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend  
+  
+# Volumes
+volumes:
+  db-data:
+
+# Networks to be created to facilitate communication between containers
+networks:
+  backend:
+  frontend:
