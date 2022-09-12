@@ -2,6 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.RequestDTO.SoccerMatchRequest;
 import com.example.demo.ResponseDTO.SoccerMatchResponse;
+import com.example.demo.ResponseDTO.TeamResponse;
 import com.example.demo.Service.TournamentMatchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +25,6 @@ public class TournamentMatchController {
     @CrossOrigin(origins = "*", methods = RequestMethod.POST)
     public ResponseEntity<List<SoccerMatchResponse>> updateScores(@RequestBody SoccerMatchRequest soccerMatchRequest) {
         try {
-            log.debug("Soccer Request : " + soccerMatchRequest.getMultilineInput());
             List<SoccerMatchResponse> response = tournamentMatchService.updateScore(soccerMatchRequest);
             return ResponseEntity.ok(response);
         } catch (MalformedInputException c) {
@@ -36,6 +36,12 @@ public class TournamentMatchController {
     @CrossOrigin(origins = "*", methods = RequestMethod.GET)
     public ResponseEntity<List<SoccerMatchResponse>> getAllScores() {
         return ResponseEntity.ok(tournamentMatchService.getAllScores());
+    }
+
+    @GetMapping(path = "/winner")
+    @CrossOrigin(origins = "*", methods = RequestMethod.GET)
+    public ResponseEntity<List<TeamResponse>> getWinners() {
+        return ResponseEntity.ok(tournamentMatchService.getWinner());
     }
 
     @DeleteMapping

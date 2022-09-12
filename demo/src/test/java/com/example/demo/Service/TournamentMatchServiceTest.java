@@ -20,18 +20,20 @@ class TournamentMatchServiceTest {
 
     @Mock
     MatchHistoryRepository matchHistoryRepository;
+    @Mock
+    TournamentRepository tournamentRepository;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        tournamentMatchService = new TournamentMatchService(matchHistoryRepository);
+        tournamentMatchService = new TournamentMatchService(matchHistoryRepository, tournamentRepository);
     }
 
     @Test
     void updateScoresTest1() throws MalformedInputException {
         String inputLine1 = "teamA teamB 0 1";
         SoccerMatchRequest soccerMatchRequest = SoccerMatchRequest.builder()
-                .multiLineInput(inputLine1)
+                .multilineInput(inputLine1)
                 .build();
 
         SoccerMatchResponse soccerMatchResponse = SoccerMatchResponse.builder()
@@ -51,7 +53,7 @@ class TournamentMatchServiceTest {
     void updateScoresTest2() throws MalformedInputException {
         String inputLine1 = "teamA teamB 0 1\nteamA teamC 1 3\n";
         SoccerMatchRequest soccerMatchRequest = SoccerMatchRequest.builder()
-                .multiLineInput(inputLine1)
+                .multilineInput(inputLine1)
                 .build();
 
         SoccerMatchResponse soccerMatchResponse1 = SoccerMatchResponse.builder()

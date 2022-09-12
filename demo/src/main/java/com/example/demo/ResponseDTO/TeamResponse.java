@@ -9,13 +9,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.Objects;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity
-public class TeamResponse {
+public class TeamResponse implements Comparable<TeamResponse> {
     @Id
     private String teamName;
 
@@ -26,6 +28,16 @@ public class TeamResponse {
     private LocalDate registrationDate;
 
     @Column
-    private int score;
+    private Integer score;
 
+
+    @Override
+    public int compareTo(TeamResponse o) {
+        if (Objects.equals(this.getScore(), o.getScore())) {
+            return this.registrationDate.compareTo(o.registrationDate);
+        }
+        else {
+            return this.getScore() - o.getScore();
+        }
+    }
 }
