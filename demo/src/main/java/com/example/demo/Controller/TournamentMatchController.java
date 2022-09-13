@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.MalformedInputException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -29,6 +30,8 @@ public class TournamentMatchController {
             return ResponseEntity.ok(response);
         } catch (MalformedInputException c) {
             return ResponseEntity.badRequest().build();
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.notFound().build();
         }
     }
 

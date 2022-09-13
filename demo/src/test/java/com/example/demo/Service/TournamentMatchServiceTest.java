@@ -38,7 +38,7 @@ class TournamentMatchServiceTest {
 
     @Test
     void updateScoresTest1() throws MalformedInputException {
-        List<TeamResponse> teams = updateWinngsHelper();
+        List<TeamResponse> teams = updateWinningsHelper();
 
         when(tournamentRepository.findById("firstTeam")).thenReturn(Optional.ofNullable(teams.get(0)));
         when(tournamentRepository.findById("secondTeam")).thenReturn(Optional.ofNullable(teams.get(1)));
@@ -63,7 +63,7 @@ class TournamentMatchServiceTest {
 
     @Test
     void updateScoresTest2() throws MalformedInputException {
-        List<TeamResponse> teams = updateWinngsHelper();
+        List<TeamResponse> teams = updateWinningsHelper();
 
         when(tournamentRepository.findById("firstTeam")).thenReturn(Optional.ofNullable(teams.get(0)));
         when(tournamentRepository.findById("secondTeam")).thenReturn(Optional.ofNullable(teams.get(1)));
@@ -96,7 +96,7 @@ class TournamentMatchServiceTest {
 
     @Test
     void updateScoresTest3() {
-        List<TeamResponse> teams = updateWinngsHelper();
+        List<TeamResponse> teams = updateWinningsHelper();
 
         when(tournamentRepository.findById("firstTeam")).thenReturn(Optional.ofNullable(teams.get(0)));
 
@@ -137,7 +137,23 @@ class TournamentMatchServiceTest {
         // TODO : Add assertions
     }
 
-    private List<TeamResponse> updateWinngsHelper() {
+    @Test
+    void updateScoresBadRequest1() {
+        String inputLine1 = "firstTeam secondTeam 0";
+        SoccerMatchRequest soccerMatchRequest = SoccerMatchRequest.builder()
+                .multilineInput(inputLine1)
+                .build();
+
+        MalformedInputException thrown = Assertions.assertThrows(
+                MalformedInputException.class,
+                () -> {
+                    tournamentMatchService.updateScore(soccerMatchRequest);
+                }
+        );
+        Assertions.assertTrue(thrown.getMessage().contains("3"));
+    }
+
+    private List<TeamResponse> updateWinningsHelper() {
         TeamResponse team1 = TeamResponse.builder()
                 .teamName("firstTeam")
                 .teamNumber(2)

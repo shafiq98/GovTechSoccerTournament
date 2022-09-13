@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.charset.MalformedInputException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 @Slf4j
@@ -76,4 +77,54 @@ class TournamentRegistrationServiceTest {
         Assertions.assertIterableEquals(expectedOutputList, outputList);
     }
 
+    @Test
+    void registerTeamsInvalidInputTestCase1() {
+
+        String inputLine = "teamA 01/04 1\t";
+        TeamRequest teamRequest = TeamRequest.builder()
+                .multilineInput(inputLine)
+                .build();
+
+        NumberFormatException thrown = Assertions.assertThrows(
+                NumberFormatException.class,
+                () -> {
+                    tournamentRegistrationService.registerTeams(teamRequest);
+                }
+        );
+        log.error(thrown.getMessage());
+    }
+
+    @Test
+    void registerTeamsInvalidInputTestCase2() {
+
+        String inputLine = "teamA 13/13 1\n";
+        TeamRequest teamRequest = TeamRequest.builder()
+                .multilineInput(inputLine)
+                .build();
+
+        DateTimeParseException thrown = Assertions.assertThrows(
+                DateTimeParseException.class,
+                () -> {
+                    tournamentRegistrationService.registerTeams(teamRequest);
+                }
+        );
+        log.error(thrown.getMessage());
+    }
+
+    @Test
+    void registerTeamsInvalidInputTestCase3() {
+
+        String inputLine = "teamA 01/04 1\nteamB 02/05";
+        TeamRequest teamRequest = TeamRequest.builder()
+                .multilineInput(inputLine)
+                .build();
+
+        MalformedInputException thrown = Assertions.assertThrows(
+                MalformedInputException.class,
+                () -> {
+                    tournamentRegistrationService.registerTeams(teamRequest);
+                }
+        );
+        log.error(thrown.getMessage());
+    }
 }

@@ -25,7 +25,7 @@ public class TournamentRegistrationService {
         this.tournamentRepository = tournamentRepository;
     }
 
-    public List<TeamResponse> registerTeams(TeamRequest teamRequest) throws MalformedInputException {
+    public List<TeamResponse> registerTeams(TeamRequest teamRequest) throws MalformedInputException, NumberFormatException, DateTimeParseException {
         String[] teams = teamRequest.getMultilineInput().split("\n");
 
         for (String s : teams) {
@@ -63,16 +63,11 @@ public class TournamentRegistrationService {
         return tournamentRepository.findAll();
     }
 
-    private LocalDate dateParser(String dateInput) {
+    private LocalDate dateParser(String dateInput) throws DateTimeParseException {
         dateInput += ("/" + Calendar.getInstance().get(Calendar.YEAR));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
 
-        try {
-            return LocalDate.parse(dateInput, formatter);
-        } catch (DateTimeParseException e) {
-            log.error("Unable to parse the date : " + dateInput);
-            return LocalDate.now();
-        }
+        return LocalDate.parse(dateInput, formatter);
     }
     public void purgeData() {
         tournamentRepository.deleteAll();
