@@ -46,6 +46,10 @@ public class TournamentRegistrationService {
                         .teamName(arguments[0])
                         .registrationDate(dateParser(arguments[1]))
                         .teamNumber(Integer.parseInt(arguments[2]))
+                        .numOfWins(0)
+                        .numOfDraws(0)
+                        .numOfLoss(0)
+                        .score(0)
                         .build();
 
                 teamList.add(i);

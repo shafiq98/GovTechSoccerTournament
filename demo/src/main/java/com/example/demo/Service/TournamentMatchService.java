@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.nio.charset.MalformedInputException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -49,7 +48,7 @@ public class TournamentMatchService {
                             .build();
 
                 // update score
-                updateScores(arguments);
+                updateWinnings(arguments);
 
                 matchList.add(i);
             }
@@ -69,25 +68,64 @@ public class TournamentMatchService {
     }
 
     public List<TeamResponse> getWinner() {
+        generateScores(false);
         List<TeamResponse> allTeams = tournamentRepository.findAll();
-
         allTeams.sort(Collections.reverseOrder());
 
         log.debug(String.valueOf(allTeams));
 
-        return allTeams;
+        List<TeamResponse> top4 = allTeams.subList(0,4);
+        // check for draw
 
+        return allTeams;
     }
 
 
-    private void updateScores(String[] arguments) {
+    private void updateWinnings(String[] arguments) {
         // TODO add checks to ensure team exists
         log.debug("Team 1 Name : "+ arguments[0] + ", goals : " + arguments[2]);
         log.debug("Team 2 Name : "+ arguments[1] + ", goals : " + arguments[3]);
 
         TeamResponse team1 = tournamentRepository.findById(arguments[0]).get();
-        team1.setScore(team1.getScore()+Integer.parseInt(arguments[2]));
         TeamResponse team2 = tournamentRepository.findById(arguments[1]).get();
-        team2.setScore(team2.getScore()+Integer.parseInt(arguments[3]));
+        Integer team1Score = Integer.valueOf(arguments[2]);
+        Integer team2Score = Integer.valueOf(arguments[3]);
+
+        if (team1Score > team2Score) {
+            team1.setNumOfWins(team1.getNumOfWins()+1);
+        }
+        else if (team1Score == team2Score) {
+            team1.setNumOfDraws(team1.getNumOfDraws()+1);
+            team2.setNumOfDraws(team2.getNumOfDraws()+1);
+        }
+        else {
+            team2.setNumOfWins(team2.getNumOfWins()+1);
+        }
+
     }
+
+    private void generateScores(boolean alternate) {
+        List<TeamResponse> listOfTeams = tournamentRepository.findAll();
+
+        int WIN_POINT, DRAW_POINT, LOSS_POINT;
+
+        if (!alternate) {
+            WIN_POINT = 3;
+            DRAW_POINT = 1;
+            LOSS_POINT = 0;
+        } else {
+            WIN_POINT = 5;
+            DRAW_POINT = 3;
+            LOSS_POINT = 1;
+        }
+
+        for (TeamResponse team : listOfTeams) {
+            int score = 0;
+            score += team.getNumOfWins() * WIN_POINT;
+            score += team.getNumOfDraws() * DRAW_POINT;
+            score += team.getNumOfLoss() * LOSS_POINT;
+            team.setScore(score);
+        }
+    }
+
 }
