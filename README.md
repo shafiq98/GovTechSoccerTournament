@@ -94,22 +94,17 @@ Since there is no front-end application, a Postman Collection is included to hel
 ### Using Postman Collection Runner
 1. [Import the collection & environment](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/)
 2. Navigate to SoccerTournament/OfficialTestCases in the collection
-
-![Alt text](./READMEResources/CollectionPostman.png?raw=true "Image")
-4. Ensure the environment is set to SoccerTournamentSpringBoot
-
-![Alt text](./READMEResources/EnvironmentPostman.png?raw=true "Image")
-5. Click on the 3 dots beside "Official Testcase"
-
-![Alt text](./READMEResources/TestcasePostman.png?raw=true "Image")
-6. Click on "Run Folder"
-7. Run all tests
-
-![Alt text](./READMEResources/RunTestcasesPostman.png?raw=true "Image")
-8. Inspect results
-
-![Alt text](./READMEResources/TestcaseResults.png?raw=true "Image")
-![Alt text](./READMEResources/TestcaseResults2.png?raw=true "Image")
+   1. ![Alt text](./READMEResources/CollectionPostman.png?raw=true "Image")
+3. Ensure the environment is set to SoccerTournamentSpringBoot
+   1. ![Alt text](./READMEResources/EnvironmentPostman.png?raw=true "Image")
+4. Click on the 3 dots beside "Official Testcase"
+   1. ![Alt text](./READMEResources/TestcasePostman.png?raw=true "Image")
+5. Click on "Run Folder"
+6. Run all tests
+   1. ![Alt text](./READMEResources/RunTestcasesPostman.png?raw=true "Image")
+7. Inspect results
+   1. ![Alt text](./READMEResources/TestcaseResults.png?raw=true "Image")
+   2. ![Alt text](./READMEResources/TestcaseResults2.png?raw=true "Image")
 ## TODO
 1. Increase code coverage in testing
 2. Deploy on scalable more scalable platforms like OpenShift/Kubernetes to allow more servers to be run
