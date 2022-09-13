@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.MalformedInputException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -67,19 +66,6 @@ public class TournamentMatchService {
         return;
     }
 
-    public List<TeamResponse> getWinner() {
-        generateScores(false);
-        List<TeamResponse> allTeams = tournamentRepository.findAll();
-        allTeams.sort(Collections.reverseOrder());
-
-        log.debug(String.valueOf(allTeams));
-
-        List<TeamResponse> top4 = allTeams.subList(0,4);
-        // check for draw
-
-        return allTeams;
-    }
-
 
     private void updateWinnings(String[] arguments) {
         // TODO add checks to ensure team exists
@@ -94,19 +80,74 @@ public class TournamentMatchService {
         if (team1Score > team2Score) {
             team1.setNumOfWins(team1.getNumOfWins()+1);
         }
-        else if (team1Score == team2Score) {
+        else if (team1Score.equals(team2Score)) {
             team1.setNumOfDraws(team1.getNumOfDraws()+1);
             team2.setNumOfDraws(team2.getNumOfDraws()+1);
         }
         else {
             team2.setNumOfWins(team2.getNumOfWins()+1);
         }
-
     }
 
-    private void generateScores(boolean alternate) {
-        List<TeamResponse> listOfTeams = tournamentRepository.findAll();
 
+
+    public List<TeamResponse> getWinner() {
+        // Get all teams, and generate scores for each of them
+        List<TeamResponse> allTeams = tournamentRepository.findAll();
+        for (TeamResponse team : allTeams) {
+            generateScores(team, false);
+        }
+
+        // sort by 1st scoring system
+        List<TeamResponse> allTeamsSortable = new ArrayList<>(allTeams);
+        allTeamsSortable.sort(TeamResponse.getScoreComparator());
+
+        log.debug("Calculated Team Order : " + allTeamsSortable);
+//
+        // create nested list of groups tied for 1st 4 rankings
+        List<List<TeamResponse>> tiedGroups = groupDraws(allTeamsSortable);
+        log.debug("=========================Tied Groups (Pre-Recalculation) : =========================");
+        for (List<TeamResponse> tiedGroup : tiedGroups) {
+            log.debug(String.valueOf(tiedGroup));
+        }
+        log.debug("====================================================================================");
+
+        // recalculate scores for first 4 sublists, if their length is > 1
+        List<List<TeamResponse>> recalculatedTeams = new ArrayList<>();
+        for (List<TeamResponse> group : tiedGroups) {
+            List<TeamResponse> recalculatedTeam = recalculateTeam(group);
+            recalculatedTeams.add(recalculatedTeam);
+        }
+
+        // flatten recalculatedTeams
+        allTeamsSortable = recalculatedTeams.stream()
+                .flatMap(List::stream).toList();
+
+        log.debug("Recalculated Team Order : " + allTeamsSortable);
+
+        // create nested list of groups tied for 1st 4 rankings
+        tiedGroups = groupDraws(allTeamsSortable);
+        log.debug("=========================Tied Groups (Post-Recalculation) : =========================");
+        for (List<TeamResponse> tiedGroup : tiedGroups) {
+            log.debug(String.valueOf(tiedGroup));
+        }
+        log.debug("=====================================================================================");
+
+        recalculatedTeams = new ArrayList<>();
+        for (List<TeamResponse> group : tiedGroups) {
+            List<TeamResponse> resortedGroup = sortByDate(group);
+            recalculatedTeams.add(resortedGroup);
+        }
+
+        allTeamsSortable = recalculatedTeams.stream()
+                .flatMap(List::stream).toList();
+
+        log.debug("Team Order by Date : " + allTeamsSortable);
+
+        return allTeamsSortable;
+    }
+
+    private void generateScores(TeamResponse team, boolean alternate) {
         int WIN_POINT, DRAW_POINT, LOSS_POINT;
 
         if (!alternate) {
@@ -119,13 +160,54 @@ public class TournamentMatchService {
             LOSS_POINT = 1;
         }
 
-        for (TeamResponse team : listOfTeams) {
-            int score = 0;
-            score += team.getNumOfWins() * WIN_POINT;
-            score += team.getNumOfDraws() * DRAW_POINT;
-            score += team.getNumOfLoss() * LOSS_POINT;
-            team.setScore(score);
+        int score = 0;
+        score += team.getNumOfWins() * WIN_POINT;
+        score += team.getNumOfDraws() * DRAW_POINT;
+        score += team.getNumOfLoss() * LOSS_POINT;
+        team.setScore(score);
+    }
+
+    private List<List<TeamResponse>> groupDraws(List<TeamResponse> allTeams) {
+        int MAX_WINNERS = 4;
+        List<List<TeamResponse>> result = new ArrayList<>();
+        int rightPointer = 0;
+        for (int i = 0; i < allTeams.size(); i++) {
+
+            while (rightPointer < allTeams.size() && (allTeams.get(rightPointer).getScore().equals(allTeams.get(i).getScore())) && result.size() < MAX_WINNERS) {
+                rightPointer++;
+            }
+            List<TeamResponse> currGroup = allTeams.subList(i, rightPointer);
+
+            i = rightPointer-1;
+            rightPointer++;
+
+            result.add(currGroup);
         }
+
+        return result;
+    }
+
+    private List<TeamResponse> recalculateTeam(List<TeamResponse> tiedTeams) {
+        if (tiedTeams.size() < 2) {
+            return tiedTeams;
+        }
+        for (TeamResponse team : tiedTeams) {
+            generateScores(team, true);
+        }
+        List<TeamResponse> tiedTeamsSortable = new ArrayList<>(tiedTeams);
+        tiedTeamsSortable.sort(TeamResponse.getScoreComparator());
+
+        return tiedTeamsSortable;
+    }
+
+    private List<TeamResponse> sortByDate(List<TeamResponse> tiedTeams) {
+        if (tiedTeams.size() < 2) {
+            return tiedTeams;
+        }
+        List<TeamResponse> tiedTeamsSortable = new ArrayList<>(tiedTeams);
+        tiedTeamsSortable.sort(TeamResponse.getDateComparator());
+
+        return tiedTeamsSortable;
     }
 
 }

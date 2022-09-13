@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Objects;
 
 @Builder
@@ -15,7 +16,7 @@ import java.util.Objects;
 @ToString
 @Data
 @Entity
-public class TeamResponse implements Comparable<TeamResponse> {
+public class TeamResponse {
     @Id
     private String teamName;
 
@@ -37,15 +38,24 @@ public class TeamResponse implements Comparable<TeamResponse> {
     @Column
     private Integer numOfDraws;
 
+    public static Comparator<TeamResponse> getDateComparator() {
+        return new Comparator<TeamResponse>() {
+            @Override
+            public int compare(TeamResponse o1, TeamResponse o2) {
+                return o1.getRegistrationDate().compareTo(o2.getRegistrationDate());
+            }
+            // compare using attribute 1
+        };
+    }
 
-    @Override
-    public int compareTo(TeamResponse o) {
-        if (Objects.equals(this.getScore(), o.getScore())) {
-            return this.registrationDate.compareTo(o.registrationDate);
-        }
-        else {
-            return this.getScore() - o.getScore();
-        }
+    public static Comparator<TeamResponse> getScoreComparator() {
+        return new Comparator<TeamResponse>() {
+            @Override
+            public int compare(TeamResponse o1, TeamResponse o2) {
+                return o2.getScore() - o1.getScore();
+            }
+            // compare using attribute 1
+        };
     }
 
     @Override
