@@ -4,7 +4,6 @@ Developed using [Spring Boot](http://projects.spring.io/spring-boot/)
 # The Goal
 To build a service that helps vendors run a soccer game
 
-
 # This Application
 ### Base Functionality:
 1. Register Teams
@@ -19,6 +18,7 @@ To build a service that helps vendors run a soccer game
 - [Running the application](#running-the-application)
    - [Using Java](#using-java)
    - [Using Docker & docker-compose](#using-docker)
+- [Verifying Results](#verifying-results)
 - [TODO](#TODO)
 
 ## Requirements
@@ -84,7 +84,32 @@ docker-compose up
    1. There is a Postman Collection & Environment to use for testing
 5. From the same directory, run ```docker-compose down``` to stop the service
 
+## Verifying Results
+Since there is no front-end application, a Postman Collection is included to help with testing
+### Components
+1. Postman Collection
+   1. Contains set of requests to be run for testing
+2. Postman Environment
+   1. Contains environment variables, for long inputs and storing results
+### Using Postman Collection Runner
+1. [Import the collection & environment](https://learning.postman.com/docs/getting-started/importing-and-exporting-data/)
+2. Navigate to SoccerTournament/OfficialTestCases in the collection
 
-# TODO
+![Alt text](./READMEResources/CollectionPostman.png?raw=true "Image")
+4. Ensure the environment is set to SoccerTournamentSpringBoot
+
+![Alt text](./READMEResources/EnvironmentPostman.png?raw=true "Image")
+5. Click on the 3 dots beside "Official Testcase"
+
+![Alt text](./READMEResources/TestcasePostman.png?raw=true "Image")
+6. Click on "Run Folder"
+7. Run all tests
+
+![Alt text](./READMEResources/RunTestcasesPostman.png?raw=true "Image")
+8. Inspect results
+
+![Alt text](./READMEResources/TestcaseResults.png?raw=true "Image")
+![Alt text](./READMEResources/TestcaseResults2.png?raw=true "Image")
+## TODO
 1. Increase code coverage in testing
 2. Deploy on scalable more scalable platforms like OpenShift/Kubernetes to allow more servers to be run
