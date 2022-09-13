@@ -25,7 +25,6 @@ public class TournamentRegistrationController {
     @CrossOrigin(origins = "*", methods = RequestMethod.POST)
     public ResponseEntity<List<TeamResponse>> registerTeams(@RequestBody TeamRequest teamRequest) {
         try {
-            log.debug("TeamRequest : " + teamRequest.getMultilineInput());
             List<TeamResponse> result = tournamentRegistrationService.registerTeams(teamRequest);
             return ResponseEntity.ok(result);
         } catch (MalformedInputException e) {

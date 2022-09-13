@@ -28,10 +28,6 @@ public class TournamentRegistrationService {
     public List<TeamResponse> registerTeams(TeamRequest teamRequest) throws MalformedInputException, NumberFormatException, DateTimeParseException {
         String[] teams = teamRequest.getMultilineInput().split("\n");
 
-        for (String s : teams) {
-            log.debug("String s : " + s);
-        }
-
         List<TeamResponse> teamList = new ArrayList<>();
 
         for (String team : teams) {

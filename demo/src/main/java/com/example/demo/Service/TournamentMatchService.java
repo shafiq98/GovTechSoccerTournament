@@ -68,9 +68,6 @@ public class TournamentMatchService {
 
 
     private void updateWinnings(String[] arguments) {
-        // TODO add checks to ensure team exists
-        log.debug("Team 1 Name : "+ arguments[0] + ", goals : " + arguments[2]);
-        log.debug("Team 2 Name : "+ arguments[1] + ", goals : " + arguments[3]);
 
         TeamResponse team1 = tournamentRepository.findById(arguments[0]).orElseThrow(() -> new NoSuchElementException("No team with :" + arguments[0] + "exists"));
         TeamResponse team2 = tournamentRepository.findById(arguments[1]).orElseThrow(() -> new NoSuchElementException("No team with :" + arguments[1] + "exists"));
@@ -104,7 +101,12 @@ public class TournamentMatchService {
         allTeamsSortable.sort(TeamResponse.getScoreComparator());
 
         log.debug("Calculated Team Order : " + allTeamsSortable);
-//
+        log.debug("=========================All Groups Sorted=========================");
+        for (TeamResponse tiedGroup : allTeamsSortable) {
+            log.debug(String.valueOf(tiedGroup));
+        }
+        log.debug("====================================================================");
+
         // create nested list of groups tied for 1st 4 rankings
         List<List<TeamResponse>> tiedGroups = groupDraws(allTeamsSortable);
         log.debug("=========================Tied Groups (Pre-Recalculation) : =========================");
@@ -124,8 +126,6 @@ public class TournamentMatchService {
         allTeamsSortable = recalculatedTeams.stream()
                 .flatMap(List::stream).toList();
 
-        log.debug("Recalculated Team Order : " + allTeamsSortable);
-
         // create nested list of groups tied for 1st 4 rankings
         tiedGroups = groupDraws(allTeamsSortable);
         log.debug("=========================Tied Groups (Post-Recalculation) : =========================");
@@ -143,7 +143,9 @@ public class TournamentMatchService {
         allTeamsSortable = recalculatedTeams.stream()
                 .flatMap(List::stream).toList();
 
-        log.debug("Team Order by Date : " + allTeamsSortable);
+        if (allTeamsSortable.size() > 4) {
+            allTeamsSortable = allTeamsSortable.subList(0, 4);
+        }
 
         return allTeamsSortable;
     }
