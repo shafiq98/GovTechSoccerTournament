@@ -1,0 +1,691 @@
+{
+	"info": {
+		"_postman_id": "61c4e676-38d7-4729-8a55-89d45028cbce",
+		"name": "SoccerTournament",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14570473"
+	},
+	"item": [
+		{
+			"name": "Register Single Team",
+			"item": [
+				{
+					"name": "Register Single Team (Good)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"multilineInput\" : \"firstTeam 17/05 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_PATH}}/register",
+							"host": [
+								"{{BASE_PATH}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Single Team (Bad)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"multilineInput\" : \"firstTeam 17/05\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_PATH}}/register",
+							"host": [
+								"{{BASE_PATH}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register Multiple Teams",
+			"item": [
+				{
+					"name": "Register Multiple Teams (Good)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"multilineInput\" : \"firstTeam 17/05 2\\nsecondTeam 07/02 2\\nthirdTeam 24/04 1\\nfourthTeam 24/01 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_PATH}}/register",
+							"host": [
+								"{{BASE_PATH}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Multiple Teams (Bad)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"multilineInput\" : \"firstTeam 17/05 2\\nsecondTeam 07/02 2\\nthirdTeam 24/04 1\\nfourthTeam 24/01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_PATH}}/register",
+							"host": [
+								"{{BASE_PATH}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update Single Match",
+			"item": [
+				{
+					"name": "Update Single Match (Good)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"multilineInput\" : \"firstTeam secondTeam 1 3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_PATH}}/score",
+							"host": [
+								"{{BASE_PATH}}"
+							],
+							"path": [
+								"score"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Single Match (Bad)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"multilineInput\" : \"firstTeam badTeamName 0 1\\n\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_PATH}}/score",
+							"host": [
+								"{{BASE_PATH}}"
+							],
+							"path": [
+								"score"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Update Multiple Matches",
+			"item": [
+				{
+					"name": "Update Multiple Match (Good)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"multilineInput\" : \"firstTeam secondTeam 0 3\\nthirdTeam fourthTeam 1 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_PATH}}/score",
+							"host": [
+								"{{BASE_PATH}}"
+							],
+							"path": [
+								"score"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Official Testcase",
+			"item": [
+				{
+					"name": "Tests",
+					"item": [
+						{
+							"name": "Test Case 1",
+							"item": [
+								{
+									"name": "Test Case 1 - Team Registration",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"multilineInput\" : {{TEST_CASE1_TEAMREGISTRATION}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_PATH}}/register",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Test Case 1 - Update Matches",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"multilineInput\" : {{TEST_CASE1_MATCHUPDATES}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_PATH}}/score",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Test Case 1 - Get Winners",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set('TestCase1Response', []);\r",
+													"let response = JSON.stringify(pm.response.json());\r",
+													"console.log(response);\r",
+													"postman.setEnvironmentVariable('TestCase1Response', response);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/score/winner",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score",
+												"winner"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete all entries Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/register",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete all matches Copy",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/score",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Test Case 2",
+							"item": [
+								{
+									"name": "Test Case 2 - Team Registration Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"multilineInput\" : {{TEST_CASE2_TEAMREGISTRATION}}\r\n\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_PATH}}/register",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Test Case 2 - Update Matches Copy",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"multilineInput\" : {{TEST_CASE2_MATCHUPDATES}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_PATH}}/score",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Test Case 2 - Get Winners Copy",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set('TestCase2Response', []);\r",
+													"let response = JSON.stringify(pm.response.json());\r",
+													"console.log(response);\r",
+													"postman.setEnvironmentVariable('TestCase2Response', response);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/score/winner",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score",
+												"winner"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete all entries Copy 2",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/register",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete all matches Copy 2",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/score",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Test Case 3",
+							"item": [
+								{
+									"name": "Test Case 3 - Team Registration",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"multilineInput\" : {{TEST_CASE3_TEAMREGISTRATION}}\r\n\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_PATH}}/register",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Test Case 3 - Update Matches",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"multilineInput\" : {{TEST_CASE3_MATCHUPDATES}}\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{BASE_PATH}}/score",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Test Case 3 - Get Winners",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.environment.set('TestCase3Response', []);\r",
+													"let response = JSON.stringify(pm.response.json());\r",
+													"console.log(response);\r",
+													"postman.setEnvironmentVariable('TestCase3Response', response);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/score/winner",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score",
+												"winner"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete all entries Copy 3",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/register",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "Delete all matches Copy 3",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{BASE_PATH}}/score",
+											"host": [
+												"{{BASE_PATH}}"
+											],
+											"path": [
+												"score"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Delete all entries",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_PATH}}/register",
+					"host": [
+						"{{BASE_PATH}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete all matches",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_PATH}}/score",
+					"host": [
+						"{{BASE_PATH}}"
+					],
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Teams",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_PATH}}/register",
+					"host": [
+						"{{BASE_PATH}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Matches",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_PATH}}/score",
+					"host": [
+						"{{BASE_PATH}}"
+					],
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Winners",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_PATH}}/score/winner",
+					"host": [
+						"{{BASE_PATH}}"
+					],
+					"path": [
+						"score",
+						"winner"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "TestCase1Response",
+			"value": ""
+		},
+		{
+			"key": "TestCase2Response",
+			"value": ""
+		},
+		{
+			"key": "TestCase3Response",
+			"value": ""
+		}
+	]
+}

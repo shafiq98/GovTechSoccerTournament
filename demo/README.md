@@ -1,3 +1,90 @@
-TODO
-1. Implement custom scoring system
-   1. Pure goals being taken into account now, instead of custom scoring requirements
+# Soccer Tournament System
+Developed using [Spring Boot](http://projects.spring.io/spring-boot/)
+
+# The Goal
+To build a service that helps vendors run a soccer game
+
+
+# This Application
+### Base Functionality:
+1. Register Teams
+2. Record matches
+3. Determine winners
+   1. Winners can be determined even when facing draws
+   2. 2 Fallback Mechanisms included
+
+# Table of Contents
+- [Requirements](#Requirements)
+- [Pre-requisites](#Pre-requisites)
+- [Running the application](#running-the-application)
+   - [Using Java](#using-java)
+   - [Using Docker & docker-compose](#using-docker)
+- [TODO](#TODO)
+
+## Requirements
+For building and running the application you need:
+
+- [JDK 18](https://jdk.java.net/18/)
+- [Maven 3](https://maven.apache.org)
+- [PostgreSQL](https://www.postgresql.org/download/)
+
+## Pre-requisites
+- A PostgreSQL instance with
+   - Valid credentials (eg: <b>username</b>=postgres, <b>password</b>=postgres)
+   - Valid database name (eg: tournament)
+## Running the application
+### Using Java
+
+There are several ways to run a Spring Boot application on your local machine. One way is to execute the `main` method in the `com.example.demo.SoccerTournamentApplication` class from your IDE.
+
+Alternatively you can use the [Spring Boot Maven plugin](https://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html) like so:
+- <b>Note</b>: This method will require the maven plugin to point to the correct JDK (JDK 18, which may not be configured on your computer)
+```shell
+mvn spring-boot:run
+```
+
+### Using Docker
+
+The easiest way to run the Spring Application using Docker is to use [Docker CLI](https://docs.docker.com/engine/reference/commandline/cli/):
+
+```shell
+docker run -p 8080:8080 -t shafiq98/spring_tournament_service
+```
+- <b>Optional</b>: Add a <b>-d</b> flag to allow the service to run in detached mode (the terminal will not keep printing logs)
+
+This will:
+
+* Pull the docker image from my public DockerHub Repository
+* Expose port 8080
+* Start the required service
+
+#### Stopping the service
+Run the following commands(<i>in a separate CLI instance if you did not add a -d flag</i>)
+```shell
+C:\\User\\User1>docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+containerID    imageName
+c:\\User\User1>docker stop containerID
+```
+
+### Deploying the application using Docker
+
+
+The easiest way to run the entire application (SpringBoot, Postgres) using Docker is to use [docker-compose CLI](https://docs.docker.com/compose/reference/):
+
+Steps
+1. Open a CLI instance and navigate to the folder docker-compose.yaml is saved in
+2. Run
+```
+docker-compose pull
+docker-compose up
+```
+3. <b>Optional</b> : Add a <b>-d</b> flag to allow the service to run in detached mode (the terminal will not keep printing logs)
+4. Navigate to localhost:8080 to access the back-end application
+   1. There is a Postman Collection & Environment to use for testing
+5. From the same directory, run ```docker-compose down``` to stop the service
+
+
+# TODO
+1. Increase code coverage in testing
+2. Deploy on scalable more scalable platforms like OpenShift/Kubernetes to allow more servers to be run
