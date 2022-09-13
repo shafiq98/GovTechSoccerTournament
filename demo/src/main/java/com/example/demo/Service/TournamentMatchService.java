@@ -10,8 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.MalformedInputException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -63,7 +64,6 @@ public class TournamentMatchService {
 
     public void purgeData() {
         matchHistoryRepository.deleteAll();
-        return;
     }
 
 
@@ -72,8 +72,9 @@ public class TournamentMatchService {
         log.debug("Team 1 Name : "+ arguments[0] + ", goals : " + arguments[2]);
         log.debug("Team 2 Name : "+ arguments[1] + ", goals : " + arguments[3]);
 
-        TeamResponse team1 = tournamentRepository.findById(arguments[0]).get();
-        TeamResponse team2 = tournamentRepository.findById(arguments[1]).get();
+        TeamResponse team1 = tournamentRepository.findById(arguments[0]).orElseThrow(() -> new NoSuchElementException("No team with :" + arguments[0] + "exists"));
+        TeamResponse team2 = tournamentRepository.findById(arguments[1]).orElseThrow(() -> new NoSuchElementException("No team with :" + arguments[1] + "exists"));
+
         Integer team1Score = Integer.valueOf(arguments[2]);
         Integer team2Score = Integer.valueOf(arguments[3]);
 

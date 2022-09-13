@@ -39,23 +39,13 @@ public class TeamResponse {
     private Integer numOfDraws;
 
     public static Comparator<TeamResponse> getDateComparator() {
-        return new Comparator<TeamResponse>() {
-            @Override
-            public int compare(TeamResponse o1, TeamResponse o2) {
-                return o1.getRegistrationDate().compareTo(o2.getRegistrationDate());
-            }
-            // compare using attribute 1
-        };
+        // compare using date attribute
+        return Comparator.comparing(TeamResponse::getRegistrationDate);
     }
 
     public static Comparator<TeamResponse> getScoreComparator() {
-        return new Comparator<TeamResponse>() {
-            @Override
-            public int compare(TeamResponse o1, TeamResponse o2) {
-                return o2.getScore() - o1.getScore();
-            }
-            // compare using attribute 1
-        };
+        // compare using score attribute
+        return (o1, o2) -> o2.getScore() - o1.getScore();
     }
 
     @Override

@@ -7,14 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.charset.MalformedInputException;
 import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
+@ExtendWith(MockitoExtension.class)
 class TournamentRegistrationServiceTest {
 
     private TournamentRegistrationService tournamentRegistrationService;
@@ -24,7 +26,6 @@ class TournamentRegistrationServiceTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         tournamentRegistrationService = new TournamentRegistrationService(tournamentRepository);
     }
 

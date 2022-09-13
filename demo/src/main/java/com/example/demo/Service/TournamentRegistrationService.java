@@ -76,6 +76,5 @@ public class TournamentRegistrationService {
     }
     public void purgeData() {
         tournamentRepository.deleteAll();
-        return;
     }
 }

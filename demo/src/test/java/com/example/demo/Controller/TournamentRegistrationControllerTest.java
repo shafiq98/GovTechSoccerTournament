@@ -1,15 +1,14 @@
 package com.example.demo.Controller;
 
-import com.example.demo.Repository.TournamentRepository;
 import com.example.demo.RequestDTO.TeamRequest;
 import com.example.demo.ResponseDTO.TeamResponse;
 import com.example.demo.Service.TournamentRegistrationService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Slf4j
+@ExtendWith(MockitoExtension.class)
 class TournamentRegistrationControllerTest {
 
     private TournamentRegistrationController tournamentRegistrationController;
@@ -25,7 +25,6 @@ class TournamentRegistrationControllerTest {
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
         tournamentRegistrationController = new TournamentRegistrationController(tournamentRegistrationService);
     }
 

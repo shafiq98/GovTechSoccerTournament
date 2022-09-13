@@ -9,17 +9,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.nio.charset.MalformedInputException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
 @Slf4j
+@ExtendWith(MockitoExtension.class)
 class TournamentMatchServiceTest {
     private TournamentMatchService tournamentMatchService;
 
@@ -30,7 +33,6 @@ class TournamentMatchServiceTest {
 
     @BeforeEach
     public void setup() {
-        MockitoAnnotations.initMocks(this);
         tournamentMatchService = new TournamentMatchService(matchHistoryRepository, tournamentRepository);
     }
 
@@ -90,6 +92,25 @@ class TournamentMatchServiceTest {
         List<SoccerMatchResponse> outputList = tournamentMatchService.updateScore(soccerMatchRequest);
 
         Assertions.assertIterableEquals(expectedOutputList, outputList);
+    }
+
+    @Test
+    void updateScoresTest3() {
+        List<TeamResponse> teams = updateWinngsHelper();
+
+        when(tournamentRepository.findById("firstTeam")).thenReturn(Optional.ofNullable(teams.get(0)));
+
+        String inputLine1 = "firstTeam secondTeam 0 1";
+        SoccerMatchRequest soccerMatchRequest = SoccerMatchRequest.builder()
+                .multilineInput(inputLine1)
+                .build();
+
+        NoSuchElementException thrown = Assertions.assertThrows(
+                NoSuchElementException.class,
+                () -> {tournamentMatchService.updateScore(soccerMatchRequest);}
+        );
+
+        Assertions.assertTrue(thrown.getMessage().contains("secondTeam"));
     }
 
     @Test
